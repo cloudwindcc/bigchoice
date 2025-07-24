@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杜均 - 新火科技 | 区块链传奇</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/framer-motion@11.0.3/dist/framer-motion.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1E40AF;
+            --primary-blue-dark: #1E3A8A;
+            --primary-blue-light: #3B82F6;
+            --secondary-blue: #60A5FA;
+            --accent-blue: #93C5FD;
+        }
+        
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        
+        .bento-item {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bento-item:hover {
+            border-color: var(--primary-blue-light);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+        
+        .bento-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-blue-light), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .bento-item:hover::before {
+            opacity: 1;
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-blue-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .giant-number {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            color: var(--primary-blue-light);
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: var(--primary-blue-light);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            border-left: 2px solid var(--primary-blue-light);
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-blue-light);
+            border-radius: 50%;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 2rem 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-blue-light), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .tech-card {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .achievement-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-blue-light), var(--primary-blue-dark));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(59, 130, 246, 0.2);
+            z-index: 1000;
+        }
+        
+        .scroll-progress {
+            height: 100%;
+            background: var(--primary-blue-light);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .bento-item {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="floating-element top-20 left-20 w-64 h-64 border border-blue-500 rounded-full"></div>
+            <div class="floating-element top-40 right-32 w-48 h-48 border border-blue-500 rounded-lg" style="animation-delay: -2s;"></div>
+            <div class="floating-element bottom-32 left-1/3 w-32 h-32 border border-blue-500" style="animation-delay: -4s;"></div>
+        </div>
+        
+        <div class="text-center z-10 px-4">
+            <h1 class="hero-title mb-8">杜均</h1>
+            <p class="text-2xl md:text-4xl font-light text-gray-300 mb-4">
+                区块链传奇 · 火币创始人
+            </p>
+            <p class="text-lg md:text-xl text-gray-400">
+                从450元月收入到亿万富豪的蜕变之路
+            </p>
+            <div class="mt-12">
+                <div class="inline-flex items-center text-blue-500">
+                    <i class="fas fa-chevron-down animate-bounce mr-2"></i>
+                    <span>向下探索</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Numbers Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title text-center">关键数据</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="giant-number">$10B</div>
+                    <p class="text-gray-400 mt-4">个人财富峰值</p>
+                </div>
+                <div>
+                    <div class="giant-number">30K</div>
+                    <p class="text-gray-400 mt-4">BTC持有量</p>
+                </div>
+                <div>
+                    <div class="giant-number">2013</div>
+                    <p class="text-gray-400 mt-4">火币创立年份</p>
+                </div>
+                <div>
+                    <div class="giant-number">$800M</div>
+                    <p class="text-gray-400 mt-4">ABCDE基金规模</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Content -->
+    <section class="py-20">
+        <div class="bento-grid max-w-7xl mx-auto">
+            <!-- Timeline -->
+            <div class="bento-item md:col-span-2">
+                <h3 class="text-3xl font-bold mb-6 gradient-text">传奇历程</h3>
+                <div class="timeline-item">
+                    <div class="text-red-500 font-bold">2008</div>
+                    <div class="text-xl font-bold mb-2">电脑维修学徒</div>
+                    <p class="text-gray-300">月薪450元的深圳电脑维修工，开启传奇之路</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="text-red-500 font-bold">2009</div>
+                    <div class="text-xl font-bold mb-2">域名投资起家</div>
+                    <p class="text-gray-300">通过短域名交易赚到第一桶金30万元</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="text-red-500 font-bold">2010-2012</div>
+                    <div class="text-xl font-bold mb-2">乐游平台创业</div>
+                    <p class="text-gray-300">创立页游平台，年收入过千万，首次创业成功</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="text-red-500 font-bold">2013</div>
+                    <div class="text-xl font-bold mb-2">火币诞生</div>
+                    <p class="text-gray-300">与李林共同创立火币网，开启区块链帝国</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="text-red-500 font-bold">2017</div>
+                    <div class="text-xl font-bold mb-2">巅峰时刻</div>
+                    <p class="text-gray-300">火币成为全球前三交易所，个人财富暴涨</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="text-red-500 font-bold">2022</div>
+                    <div class="text-xl font-bold mb-2">ABCDE Capital</div>
+                    <p class="text-gray-300">创立8亿美元基金，转型机构化投资</p>
+                </div>
+            </div>
+
+            <!-- Personal Info -->
+            <div class="bento-item">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">个人信息</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-red-500 font-bold">出生年份</div>
+                        <div class="text-2xl font-bold">1990</div>
+                    </div>
+                    <div>
+                        <div class="text-red-500 font-bold">出生地</div>
+                        <div class="text-xl">贵州山区</div>
+                    </div>
+                    <div>
+                        <div class="text-red-500 font-bold">现居地</div>
+                        <div class="text-xl">新加坡</div>
+                    </div>
+                    <div>
+                        <div class="text-red-500 font-bold">主要身份</div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="achievement-badge">火币创始人</span>
+                            <span class="achievement-badge">ABCDE合伙人</span>
+                            <span class="achievement-badge">新火科技CEO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Companies -->
+            <div class="bento-item">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">旗下企业</h3>
+                <div class="space-y-4">
+                    <div class="tech-card">
+                        <i class="fas fa-fire text-3xl text-red-500 mb-2"></i>
+                        <div class="font-bold">火币网</div>
+                        <div class="text-sm text-gray-400">全球前三交易所</div>
+                    </div>
+                    <div class="tech-card">
+                        <i class="fas fa-rocket text-3xl text-red-500 mb-2"></i>
+                        <div class="font-bold">新火科技</div>
+                        <div class="text-sm text-gray-400">数字资产服务商</div>
+                    </div>
+                    <div class="tech-card">
+                        <i class="fas fa-chart-line text-3xl text-red-500 mb-2"></i>
+                        <div class="font-bold">ABCDE Capital</div>
+                        <div class="text-sm text-gray-400">8亿美元基金</div>
+                    </div>
+                    <div class="tech-card">
+                        <i class="fas fa-newspaper text-3xl text-red-500 mb-2"></i>
+                        <div class="font-bold">金色财经</div>
+                        <div class="text-sm text-gray-400">顶级加密媒体</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Portfolio -->
+            <div class="bento-item md:col-span-2">
+                <h3 class="text-3xl font-bold mb-6 gradient-text">投资战绩</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gradient-to-br from-red-500/10 to-red-600/5 p-4 rounded-xl">
+                        <div class="text-3xl font-bold text-red-500">240×</div>
+                        <div class="text-lg font-bold">FTX投资</div>
+                        <div class="text-sm text-gray-400">50万美元→1.2亿美元</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-500/10 to-red-600/5 p-4 rounded-xl">
+                        <div class="text-3xl font-bold text-red-500">90×</div>
+                        <div class="text-lg font-bold">Solana投资</div>
+                        <div class="text-sm text-gray-400">200万美元→1.8亿美元</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-500/10 to-red-600/5 p-4 rounded-xl">
+                        <div class="text-3xl font-bold text-red-500">150×</div>
+                        <div class="text-lg font-bold">STEPN投资</div>
+                        <div class="text-sm text-gray-400">30万美元→4500万美元</div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold mb-4">近期投资项目</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="border border-red-500/30 rounded-lg p-3">
+                            <div class="font-bold">zkSync</div>
+                            <div class="text-sm text-gray-400">5000万美元领投</div>
+                        </div>
+                        <div class="border border-red-500/30 rounded-lg p-3">
+                            <div class="font-bold">Polyhedra</div>
+                            <div class="text-sm text-gray-400">800万美元种子轮</div>
+                        </div>
+                        <div class="border border-red-500/30 rounded-lg p-3">
+                            <div class="font-bold">Merlin Chain</div>
+                            <div class="text-sm text-gray-400">600万美元种子轮</div>
+                        </div>
+                        <div class="border border-red-500/30 rounded-lg p-3">
+                            <div class="font-bold">Vernal USD</div>
+                            <div class="text-sm text-gray-400">1000万美元独家</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wealth Chart -->
+            <div class="bento-item">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">财富增长</h3>
+                <div class="chart-container">
+                    <canvas id="wealthChart" width="300" height="300"></canvas>
+                </div>
+                <div class="text-center mt-4">
+                    <div class="text-3xl font-bold text-red-500">$10B+</div>
+                    <div class="text-sm text-gray-400">2024年估值</div>
+                </div>
+            </div>
+
+            <!-- Philosophy -->
+            <div class="bento-item md:col-span-2">
+                <h3 class="text-3xl font-bold mb-6 gradient-text">投资哲学</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-xl font-bold mb-3 text-red-500">根叶投资理论</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            投资要像树根一样深入基础设施，像树叶一样覆盖应用场景。只有根扎得深，叶才能长得茂。
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-3 text-red-500">周期穿越</h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            熊市建仓，牛市收获。真正的价值投资者要在别人恐惧时贪婪，在别人贪婪时恐惧。
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-blue-500/10 rounded-xl">
+                    <div class="text-lg font-bold text-blue-500 mb-2">2024年最新观点</div>
+                    <p class="text-gray-300">
+                        "美元稳定币将重塑金融秩序，比特币进入可编程元年。亚洲RWA（现实世界资产）将迎来2.0时代。"
+                    </p>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="bento-item">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">荣誉成就</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <i class="fas fa-trophy text-red-500 mr-3"></i>
+                        <div>
+                            <div class="font-bold">Cointelegraph Top 100</div>
+                            <div class="text-sm text-gray-400">2019-2021连续三年</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-medal text-red-500 mr-3"></i>
+                        <div>
+                            <div class="font-bold">财富中国40U40</div>
+                            <div class="text-sm text-gray-400">2022年度精英</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-crown text-red-500 mr-3"></i>
+                        <div>
+                            <div class="font-bold">区块链领军人物</div>
+                            <div class="text-sm text-gray-400">行业公认领袖</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Impact -->
+            <div class="bento-item md:col-span-2">
+                <h3 class="text-3xl font-bold mb-6 gradient-text">行业影响力</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-500">12万+</div>
+                        <div class="text-gray-400">X-Twitter粉丝量</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-500">50+</div>
+                        <div class="text-gray-400">投资项目</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-500">90%+</div>
+                        <div class="text-gray-400">基金IRR</div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h4 class="text-xl font-bold mb-4">最新动态</h4>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <div class="font-bold">ABCDE Fund II启动</div>
+                            <div class="text-sm text-gray-400">2024年11月，目标规模8亿美元</div>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <div class="font-bold">香港Web3 Festival演讲</div>
+                            <div class="text-sm text-gray-400">提出亚洲RWA 2.0机会</div>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <div class="font-bold">Vernal USD稳定币</div>
+                            <div class="text-sm text-gray-400">获香港政府合规牌照</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-red-500/20">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="text-2xl font-bold text-red-500 mb-4">杜均</div>
+            <p class="text-gray-400 mb-4">从草根到亿万富豪的传奇之路</p>
+            <div class="flex justify-center space-x-6">
+                <i class="fab fa-twitter text-2xl text-gray-400 hover:text-red-500 cursor-pointer transition-colors"></i>
+                <i class="fab fa-telegram text-2xl text-gray-400 hover:text-red-500 cursor-pointer transition-colors"></i>
+                <i class="fas fa-link text-2xl text-gray-400 hover:text-red-500 cursor-pointer transition-colors"></i>
+            </div>
+            <div class="mt-8 text-sm text-gray-500">
+                Data compiled from public sources • Last updated: July 2025
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+        });
+
+        // Wealth growth chart
+        const ctx = document.getElementById('wealthChart').getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(227, 25, 55, 0.8)');
+        gradient.addColorStop(1, 'rgba(227, 25, 55, 0.1)');
+
+        // Simple line chart
+        const chartData = {
+            labels: ['2008', '2010', '2013', '2017', '2020', '2022', '2024'],
+            datasets: [{
+                label: '财富 (亿美元)',
+                data: [0, 0.1, 5, 25, 15, 8, 10],
+                borderColor: '#E31937',
+                backgroundColor: gradient,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#E31937',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6
+            }]
+        };
+
+        // Draw simple chart
+        function drawChart() {
+            ctx.clearRect(0, 0, 300, 300);
+            
+            // Chart area
+            const padding = 40;
+            const chartWidth = 300 - 2 * padding;
+            const chartHeight = 300 - 2 * padding;
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding + (chartHeight * i / 5);
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(300 - padding, y);
+                ctx.stroke();
+            }
+            
+            // Draw line
+            ctx.strokeStyle = '#E31937';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            const maxValue = 30;
+            chartData.datasets[0].data.forEach((value, index) => {
+                const x = padding + (chartWidth * index / (chartData.labels.length - 1));
+                const y = 300 - padding - (chartHeight * value / maxValue);
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+            
+            // Fill area
+            ctx.lineTo(300 - padding, 300 - padding);
+            ctx.lineTo(padding, 300 - padding);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        drawChart();
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Animate elements on scroll
+        document.querySelectorAll('.bento-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(50px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+
+        // Add hover effects to numbers
+        document.querySelectorAll('.giant-number').forEach(number => {
+            number.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+                this.style.textShadow = '0 0 50px rgba(227, 25, 55, 0.8)';
+            });
+            
+            number.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.textShadow = '0 0 30px rgba(227, 25, 55, 0.3)';
+            });
+        });
+    </script>
+</body>
+</html>

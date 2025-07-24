@@ -1,0 +1,12 @@
+name = "dujun-profile"
+main = "_worker.js"
+compatibility_date = "2024-01-01"
+
+[build]
+command = ""
+
+[env.production]
+name = "dujun-profile"
+
+[env.staging]
+name = "dujun-profile-staging"
