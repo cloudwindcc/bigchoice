@@ -16,7 +16,9 @@
       "Bash(git push:*)",
       "Bash(git branch:*)",
       "Bash(git pull:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(npx:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }
